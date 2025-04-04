@@ -22,7 +22,7 @@
 #define __LIB_LIST_H
 #include "Lib_Common.h"
 template <typename T>
-class List_t
+class LibList_t
 {
 public:
     template <typename Func>

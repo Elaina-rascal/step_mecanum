@@ -14,12 +14,13 @@ __asm(".global __use_no_semihosting");
 #include "FreeRTOS.h"
 #include "task.h"
 #include "stepmotorZDT.hpp"
-
+#include "Lib_List.h"
 // 实例化Map并将初始点设置成startInfo
 // Controller::Controller_t *ChassisControl;
 // Kinematic::Kinematic_t *kinematic;
-Planner::Planner_t *planner;
-StepMotorZDT_t *stepmotor_ptr;
+// Planner::Planner_t *planner;
+// StepMotorZDT_t *stepmotor_ptr;
+LibList_t<StepMotorZDT_t *> *stepmotor_list_ptr;
 // TaskHandle_t Motor_control_handle;    // 电机转速控制
 // TaskHandle_t Kinematic_update_handle; // 运动学更新
 TaskHandle_t main_cpp_handle; // 主函数
@@ -38,7 +39,12 @@ void OnPlannerUpdate(void *pvParameters);
 /*二与三需要实时更新*/
 void main_cpp(void)
 {
-  stepmotor_ptr = new StepMotorZDT_t(1, &huart1, true, 1);
+  // stepmotor_ptr = new StepMotorZDT_t(1, &huart1, true, 1);
+  stepmotor_list_ptr = new LibList_t<StepMotorZDT_t *>();
+  stepmotor_list_ptr->Add(new StepMotorZDT_t(1, &huart1, true, 1));
+  stepmotor_list_ptr->Add(new StepMotorZDT_t(2, &huart1, true, 1));
+  stepmotor_list_ptr->Add(new StepMotorZDT_t(3, &huart1, true, 1));
+  stepmotor_list_ptr->Add(new StepMotorZDT_t(4, &huart1, true, 1));
   //   HAL_UARTEx_ReceiveToIdle_DMA(&huart3, imu.buffer, 100);
   //   BaseType_t ok = xTaskCreate(OnMotorControl, "Motor_control", 600, NULL, 3, &Motor_control_handle);
   //   BaseType_t ok2 = xTaskCreate(OnKinematicUpdate, "Kinematic_update", 600, NULL, 2, &Kinematic_update_handle);
@@ -66,20 +72,22 @@ void Onmaincpp(void *pvParameters)
 {
   while (1)
   {
-    stepmotor_ptr->set_speed_target(1.5);
-    vTaskDelay(1000);
-    stepmotor_ptr->set_speed_target(0.0);
-    vTaskDelay(1000);
+    // stepmotor_ptr->set_speed_target(1.5);
+    // vTaskDelay(1000);
+    // stepmotor_ptr->set_speed_target(0.0);
+    // vTaskDelay(1000);
   }
 }
 void ontest(void *pvParameters)
 {
   while (1)
   {
-    stepmotor_ptr->set_speed_target(1.5);
-    vTaskDelay(1000);
-    stepmotor_ptr->set_speed_target(0.0);
-    vTaskDelay(1000);
+    stepmotor_list_ptr->Foreach([](StepMotorZDT_t *motor)
+                                {
+      motor->set_speed_target(1.5);
+      vTaskDelay(1000);
+      motor->set_speed_target(0.0);
+      vTaskDelay(1000); });
   }
 }
 // void OnMotorControl(void *pvParameters)
