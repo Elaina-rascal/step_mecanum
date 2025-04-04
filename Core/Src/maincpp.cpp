@@ -54,9 +54,9 @@ void main_cpp(void)
   kinematic_ptr = new Kinematic_t();
   // 需要用reinterpret_cast转换到父类指针类型
   ChassisControl_ptr = new Controller_t(reinterpret_cast<IMotorSpeed_t **>(stepmotor_list_ptr), kinematic_ptr);
-  host_control_ptr = new HostControl_t(&huart2, ChassisControl_ptr, planner_ptr);
+  host_control_ptr = new HostControl_t(&huart8, ChassisControl_ptr, planner_ptr);
   BaseType_t ok2 = xTaskCreate(OnChassicControl, "Chassic_control", 600, NULL, 3, &Chassic_control_handle);
-  BaseType_t ok3 = xTaskCreate(ontest, "main_cpp", 600, NULL, 4, &main_cpp_handle);
+  BaseType_t ok3 = xTaskCreate(Onmaincpp, "main_cpp", 600, NULL, 4, &main_cpp_handle);
   BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);
   //   if (ok != pdPASS || ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
   if (ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
@@ -76,7 +76,7 @@ void Onmaincpp(void *pvParameters)
     // stepmotor_ptr->set_speed_target(1.5);
     // vTaskDelay(1000);
     // stepmotor_ptr->set_speed_target(0.0);
-    // vTaskDelay(1000);
+    vTaskDelay(1000);
   }
 }
 void ontest(void *pvParameters)

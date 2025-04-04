@@ -38,7 +38,7 @@ extern "C"
   /* Exported types ------------------------------------------------------------*/
   /* USER CODE BEGIN ET */
   extern UART_HandleTypeDef huart1;
-  extern UART_HandleTypeDef huart2;
+  extern UART_HandleTypeDef huart8;
   /* USER CODE END ET */
 
   /* Exported constants --------------------------------------------------------*/
@@ -52,7 +52,8 @@ extern "C"
   /* USER CODE END EM */
 
   /* Exported functions prototypes ---------------------------------------------*/
-  void Error_Handler(void);
+  void
+  Error_Handler(void);
 
   /* USER CODE BEGIN EFP */
 

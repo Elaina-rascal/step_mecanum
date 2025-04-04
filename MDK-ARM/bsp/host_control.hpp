@@ -40,10 +40,10 @@ public:
     // 兼容c的函数指针回调
     static void USARTCallback(void *param)
     {
-        // ✅ 2️⃣ 把 void* 转回 HostControl 指针
+        // 把 void* 转回 HostControl 指针
         HostControl_t *self = static_cast<HostControl_t *>(param);
 
-        // ✅ 3️⃣ 调用类内的成员函数
+        // 调用类内的成员函数
         self->reciveCallback(self->_instance.recv_buff);
     }
     /// @brief

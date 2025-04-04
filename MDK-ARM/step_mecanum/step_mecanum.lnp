@@ -4,6 +4,7 @@
 "step_mecanum\main.o"
 "step_mecanum\gpio.o"
 "step_mecanum\freertos.o"
+"step_mecanum\dma.o"
 "step_mecanum\memorymap.o"
 "step_mecanum\usart.o"
 "step_mecanum\stm32h7xx_it.o"
