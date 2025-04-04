@@ -9,8 +9,7 @@
  * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
  */
 #include "Lib_Math.h"
-using namespace Math;
-float Math::Sqrt(float x)
+float Sqrt(float x)
 {
     if (x <= 0.0f)
         return 0.0f; // 处理 x <= 0 的情况
@@ -31,7 +30,7 @@ float Math::Sqrt(float x)
     // 直接返回倒数平方根
     return 1 / x;
 }
-float Math::pow(float x, uint8_t n)
+float pow(float x, uint8_t n)
 {
     float result = 1.0f;
     for (int i = 0; i < n; i++)
@@ -40,16 +39,16 @@ float Math::pow(float x, uint8_t n)
     }
     return result;
 }
-float Math::LinearInterpolation(float x, float x1, float x2, float y1, float y2)
+float LinearInterpolation(float x, float x1, float x2, float y1, float y2)
 {
     return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
 }
 
-float Math::CubicSplineInterpolation(float x, float x1, float x2, float y1, float y2, float y1_, float y2_)
+float CubicSplineInterpolation(float x, float x1, float x2, float y1, float y2, float y1_, float y2_)
 {
     float h = x2 - x1;
     float a = (y2 - y1) / h - h * (y2_ + 2 * y1_) / 6;
     float b = y1_ / 2;
     float c = (y2_ - y1_) / (6 * h);
-    return a * Math::pow(x - x1, 3) + b * Math::pow(x - x1, 2) + c * Math::pow(x - x1, 3);
+    return a * pow(x - x1, 3) + b * pow(x - x1, 2) + c * pow(x - x1, 3);
 }

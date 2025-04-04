@@ -9,7 +9,6 @@
  * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
  */
 #include "controller.h"
-using namespace Controller;
 void Controller_t::setMotorTargetSpeed(float *target_speed)
 {
     MotorList->Foreach([this, target_speed](Motor::IMotorSpeed_t *motor)
@@ -51,7 +50,7 @@ void Controller_t::set_vel_target(cmd_vel_t cmd_vel_in, bool use_ground_control)
     if (use_ground_control)
     {
         _ControlMode = ControlMode_t::speed_control_groud;
-        }
+    }
     else
     {
         _ControlMode = ControlMode_t::speed_control_self;
@@ -70,16 +69,16 @@ void Controller_t::control_update(odom_t &odom_in)
     {
     case ControlMode_t::location_contorl:
     {
-        if(_status.isResolved())
+        if (_status.isResolved())
         {
-            _ControlMode=ControlMode_t::speed_control_self;
-            kinematic->inv({0,0,0}, target_speed);
+            _ControlMode = ControlMode_t::speed_control_self;
+            kinematic->inv({0, 0, 0}, target_speed);
             return;
         }
         odom_t &target_odom = kinematic->target_odom;
-        float vx = pid_x.cal(target_odom.x, odom_in.x)+kinematic->target_val.linear_x;
-        float vy = pid_y.cal(target_odom.y, odom_in.y)+kinematic->target_val.linear_y;
-        float v_yaw = pid_yaw.cal(target_odom.yaw, odom_in.yaw)+kinematic->target_val.angular_z;
+        float vx = pid_x.cal(target_odom.x, odom_in.x) + kinematic->target_val.linear_x;
+        float vy = pid_y.cal(target_odom.y, odom_in.y) + kinematic->target_val.linear_y;
+        float v_yaw = pid_yaw.cal(target_odom.yaw, odom_in.yaw) + kinematic->target_val.angular_z;
 
         /* code */
         kinematic->inv({vx, vy, v_yaw}, target_speed, odom_in);
@@ -137,8 +136,8 @@ void Controller_t::KinematicAndControlUpdate(uint16_t dt, float yaw)
 {
     kinematic->forward(kinematic->current_vel, current_speed);
     // 先更新里程计
-    kinematic->CalculationUpdate(dt, kinematic->current_vel, kinematic->current_odom,yaw);
-   
+    kinematic->CalculationUpdate(dt, kinematic->current_vel, kinematic->current_odom, yaw);
+
     // 再更新控制量
     control_update(kinematic->current_odom);
     // 更新状态

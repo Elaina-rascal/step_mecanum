@@ -11,7 +11,7 @@
 __asm(".global __use_no_semihosting");
 #include "maincpp.h"
 #define PI 3.1415926535
-
+#include "FreeRTOS.h"
 // 实例化Map并将初始点设置成startInfo
 // Controller::Controller_t ChassisControl;
 // Kinematic::Kinematic_t kinematic;
@@ -23,7 +23,6 @@ __asm(".global __use_no_semihosting");
 // TaskHandle_t Kinematic_update_handle; // 运动学更新
 // TaskHandle_t main_cpp_handle;         // 主函数
 // TaskHandle_t Planner_update_handle;   // 轨迹规划
-
 
 void OnMotorControl(void *pvParameters);
 void OnKinematicUpdate(void *pvParameters);
@@ -39,19 +38,19 @@ void OnPlannerUpdate(void *pvParameters);
 void main_cpp(void)
 {
 
-//   HAL_UARTEx_ReceiveToIdle_DMA(&huart3, imu.buffer, 100);
-//   BaseType_t ok = xTaskCreate(OnMotorControl, "Motor_control", 600, NULL, 3, &Motor_control_handle);
-//   BaseType_t ok2 = xTaskCreate(OnKinematicUpdate, "Kinematic_update", 600, NULL, 2, &Kinematic_update_handle);
-//   BaseType_t ok3 = xTaskCreate(Onmaincpp, "main_cpp", 600, NULL, 4, &main_cpp_handle);
-//   BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);
-//   if (ok != pdPASS || ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
-//   {
-//     while (1)
-//     {
-//       // uart_printf("create task failed\n");
-//     }
-//   }
-    // Onmaincpp(); // 直接调用主函数
+  //   HAL_UARTEx_ReceiveToIdle_DMA(&huart3, imu.buffer, 100);
+  //   BaseType_t ok = xTaskCreate(OnMotorControl, "Motor_control", 600, NULL, 3, &Motor_control_handle);
+  //   BaseType_t ok2 = xTaskCreate(OnKinematicUpdate, "Kinematic_update", 600, NULL, 2, &Kinematic_update_handle);
+  //   BaseType_t ok3 = xTaskCreate(Onmaincpp, "main_cpp", 600, NULL, 4, &main_cpp_handle);
+  //   BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);
+  //   if (ok != pdPASS || ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
+  //   {
+  //     while (1)
+  //     {
+  //       // uart_printf("create task failed\n");
+  //     }
+  //   }
+  // Onmaincpp(); // 直接调用主函数
   // RTOS不用while1
 }
 
@@ -59,7 +58,6 @@ void Onmaincpp(void *pvParameters)
 {
   
 }
-
 
 // void OnMotorControl(void *pvParameters)
 // {
@@ -78,8 +76,6 @@ void Onmaincpp(void *pvParameters)
 //     vTaskDelay(3);
 //   }
 // }
-
-
 
 // void OnPlannerUpdate(void *pvParameters)
 // {

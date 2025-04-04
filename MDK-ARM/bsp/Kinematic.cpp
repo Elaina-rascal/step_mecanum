@@ -16,7 +16,6 @@
  * @param {float} *speed_control
  * @return {*}
  */
-using namespace Kinematic;
 void Kinematic_t::inv(cmd_vel_t const &cmd_vel_in, float *speed_control)
 {
     // o型
@@ -89,8 +88,6 @@ void Kinematic_t::forward(cmd_vel_t &cmd_vel_in, float *current_speed)
     cmd_vel_in.angular_z = (-v0 + v1 - v2 + v3) / (4.0 * (a + b)); // 角速度
 }
 
-
-
 /**
  * @brief 里程计更新函数，需要传递进dt(单位为ms)
  * @param {uint16_t} dt 传入的时间间隔
@@ -110,7 +107,7 @@ void Kinematic_t::CalculationUpdate(uint16_t dt, cmd_vel_t &cmd_vel_in, odom_t &
     odom_in.x += dx * cosf(odom_in.yaw) - dy * sinf(odom_in.yaw);
 }
 
-void Kinematic_t::CalculationUpdate(uint16_t dt, cmd_vel_t &cmd_vel_in, odom_t &odom_in,float yaw)
+void Kinematic_t::CalculationUpdate(uint16_t dt, cmd_vel_t &cmd_vel_in, odom_t &odom_in, float yaw)
 {
     float delta_t = (float)dt / 1000;
     float dyaw = cmd_vel_in.angular_z * delta_t;
@@ -125,11 +122,11 @@ void Kinematic_t::ClearOdometry()
     current_odom.x = 0;
     current_odom.y = 0;
     current_odom.yaw = 0;
-} 
+}
 /**
  * @brief 更新里程计
- * 
- * @param odom_in 
+ *
+ * @param odom_in
  */
 void Kinematic_t::update_odom(odom_t &odom_in)
 {

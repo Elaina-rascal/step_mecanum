@@ -18,6 +18,7 @@ extern "C"
 }
 void *operator new(std::size_t size) throw(std::bad_alloc);
 void operator delete(void *pointer) throw();
+void delay(uint32_t ms);
 template <typename T>
 class CustomAllocator
 {

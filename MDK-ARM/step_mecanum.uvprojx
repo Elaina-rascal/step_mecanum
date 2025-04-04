@@ -82,7 +82,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
+            <RunUserProg2>1</RunUserProg2>
             <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -341,7 +341,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;./bsp;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;.\lib</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;./bsp;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;./lib</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -948,16 +948,6 @@
           <GroupName>lib</GroupName>
           <Files>
             <File>
-              <FileName>Lib_Common.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\lib\Lib_Common.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Lib_List.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\lib\Lib_List.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Lib_Math.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\lib\Lib_Math.cpp</FilePath>
@@ -966,6 +956,11 @@
               <FileName>Lib_promise.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\lib\Lib_promise.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Lib_Common.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\lib\Lib_Common.cpp</FilePath>
             </File>
           </Files>
         </Group>
