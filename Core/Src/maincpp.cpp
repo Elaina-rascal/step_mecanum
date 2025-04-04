@@ -14,6 +14,7 @@ __asm(".global __use_no_semihosting");
 #include "FreeRTOS.h"
 #include "task.h"
 #include "stepmotorZDT.hpp"
+float DEBUG = 0.0f;
 // 实例化Map并将初始点设置成startInfo
 // Controller::Controller_t *ChassisControl;
 // Kinematic::Kinematic_t *kinematic;
@@ -40,10 +41,10 @@ void main_cpp(void)
 {
   // stepmotor_ptr = new StepMotorZDT_t(1, &huart1, true, 1);
   // stepmotor_list_ptr = new LibList_t<StepMotorZDT_t *>();
-  stepmotor_list_ptr[0] = new StepMotorZDT_t(1, &huart1, true, 1);
-  stepmotor_list_ptr[1] = new StepMotorZDT_t(2, &huart1, true, 1);
+  stepmotor_list_ptr[1] = new StepMotorZDT_t(1, &huart1, true, 0);
+  stepmotor_list_ptr[0] = new StepMotorZDT_t(2, &huart1, true, 1);
   stepmotor_list_ptr[2] = new StepMotorZDT_t(3, &huart1, true, 1);
-  stepmotor_list_ptr[3] = new StepMotorZDT_t(4, &huart1, true, 1);
+  stepmotor_list_ptr[3] = new StepMotorZDT_t(4, &huart1, true, 0);
   //   HAL_UARTEx_ReceiveToIdle_DMA(&huart3, imu.buffer, 100);
   //   BaseType_t ok = xTaskCreate(OnMotorControl, "Motor_control", 600, NULL, 3, &Motor_control_handle);
   //   BaseType_t ok2 = xTaskCreate(OnKinematicUpdate, "Kinematic_update", 600, NULL, 2, &Kinematic_update_handle);
@@ -83,7 +84,7 @@ void ontest(void *pvParameters)
   {
     for (int i = 0; i < 4; i++)
     {
-      stepmotor_list_ptr[i]->set_speed_target(0.5);
+      stepmotor_list_ptr[i]->set_speed_target(DEBUG);
       vTaskDelay(1000);
       stepmotor_list_ptr[i]->set_speed_target(0.0);
       vTaskDelay(1000);

@@ -1,5 +1,6 @@
 #include "stepmotorZDT.hpp"
 #include "Lib_Common.h"
+#include "math.h"
 /**
  * @brief    位置模式
  * @param    addr：电机地址
@@ -87,9 +88,18 @@ void StepMotorZDT_t::update(void *param)
 void StepMotorZDT_t::set_speed_target(float target)
 {
     _target_speed = target;
-    _target_rpm = (uint8_t)(target * 60 / (3.14 * _wheel_diameter)); // 转化为转速(RPM)
+    _target_rpm = (int16_t)(target * 60 / (3.14 * _wheel_diameter)); // 转化为转速(RPM)
     // 发送数据到电机
-    auto len = Step_Vel_Control(_cmd_buffer, _id, _forward, _target_rpm, 0, true);
+    uint8_t len;
+    if (_target_rpm > 0)
+    {
+        len = Step_Vel_Control(_cmd_buffer, _id, _dir, (uint16_t)_target_rpm, 0, false);
+    }
+    else
+    { // 反转
+        auto dir_trans = _dir == 0 ? 1 : 0;
+        len = Step_Vel_Control(_cmd_buffer, _id, dir_trans, (uint16_t)(-_target_rpm), 0, false);
+    }
     HAL_UART_Transmit(_USART, _cmd_buffer, len, 1000); // 发送数据到电机
     delay(1);                                          // 傻逼电机需要延迟避免重包
     if (_have_pub_permission)

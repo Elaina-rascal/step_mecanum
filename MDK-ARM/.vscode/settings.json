@@ -18,4 +18,7 @@
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.default.compilerPath": "",
+    "C_Cpp.default.includePath": [
+        "D:\\TOOLS\\keil\\ARM\\ARMCLANG\\include\\**",
+    ]
 }
