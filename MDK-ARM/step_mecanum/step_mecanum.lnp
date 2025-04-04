@@ -1,0 +1,28 @@
+--cpu Cortex-M7.fp.dp
+"step_mecanum\startup_stm32h743xx.o"
+"step_mecanum\main.o"
+"step_mecanum\stm32h7xx_it.o"
+"step_mecanum\stm32h7xx_hal_msp.o"
+"step_mecanum\stm32h7xx_hal_cortex.o"
+"step_mecanum\stm32h7xx_hal_rcc.o"
+"step_mecanum\stm32h7xx_hal_rcc_ex.o"
+"step_mecanum\stm32h7xx_hal_flash.o"
+"step_mecanum\stm32h7xx_hal_flash_ex.o"
+"step_mecanum\stm32h7xx_hal_gpio.o"
+"step_mecanum\stm32h7xx_hal_hsem.o"
+"step_mecanum\stm32h7xx_hal_dma.o"
+"step_mecanum\stm32h7xx_hal_dma_ex.o"
+"step_mecanum\stm32h7xx_hal_mdma.o"
+"step_mecanum\stm32h7xx_hal_pwr.o"
+"step_mecanum\stm32h7xx_hal_pwr_ex.o"
+"step_mecanum\stm32h7xx_hal.o"
+"step_mecanum\stm32h7xx_hal_i2c.o"
+"step_mecanum\stm32h7xx_hal_i2c_ex.o"
+"step_mecanum\stm32h7xx_hal_exti.o"
+"step_mecanum\stm32h7xx_hal_uart.o"
+"step_mecanum\stm32h7xx_hal_uart_ex.o"
+"step_mecanum\system_stm32h7xx.o"
+--strict --scatter "step_mecanum\step_mecanum.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "step_mecanum.map" -o step_mecanum\step_mecanum.axf
