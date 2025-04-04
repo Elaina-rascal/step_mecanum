@@ -54,6 +54,7 @@ void main_cpp(void)
   kinematic_ptr = new Kinematic_t();
   // 需要用reinterpret_cast转换到父类指针类型
   ChassisControl_ptr = new Controller_t(reinterpret_cast<IMotorSpeed_t **>(stepmotor_list_ptr), kinematic_ptr);
+  planner_ptr = new Planner_t(ChassisControl_ptr);
   host_control_ptr = new HostControl_t(&huart8, ChassisControl_ptr, planner_ptr);
   BaseType_t ok2 = xTaskCreate(OnChassicControl, "Chassic_control", 600, NULL, 3, &Chassic_control_handle);
   BaseType_t ok3 = xTaskCreate(Onmaincpp, "main_cpp", 600, NULL, 4, &main_cpp_handle);

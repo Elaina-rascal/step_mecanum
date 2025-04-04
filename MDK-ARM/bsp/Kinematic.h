@@ -36,8 +36,11 @@ enum class_t
 class Kinematic_t
 {
 public:
-    Kinematic_t()
+    Kinematic_t(float a = 0.1, float b = 0.1, class_t diclass = X_shape)
     {
+        this->a = a;
+        this->b = b;
+        this->diclass = diclass;
         current_odom = {0, 0, 0};
     }
     void forward(cmd_vel_t &cmd_vel_in, float *current_speed);
