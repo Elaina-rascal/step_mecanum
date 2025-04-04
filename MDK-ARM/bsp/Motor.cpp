@@ -9,7 +9,7 @@
  * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
  */
 #include "Motor.h"
-using namespace Motor;
+
 #if USE_CAN_Motor
 void MotorCanBase_t::CanSend(uint8_t *data, uint8_t len, uint32_t id)
 {
@@ -178,7 +178,7 @@ float MotorCommon_t::get_linear_speed()
 void MotorCommon_t::update(void *param)
 {
     // 获得编码器的值
-    uint16_t dt = *(uint16_t*)(param);
+    uint16_t dt = *(uint16_t *)(param);
     int delat_tick = _Encoder->Instance->CNT;
     if (delat_tick > 0xefff)
     {

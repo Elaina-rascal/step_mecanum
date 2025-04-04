@@ -26,7 +26,7 @@ class Controller_t
 {
 public:
     Controller_t() = default;
-    Controller_t(List::List_t<Motor::IMotorSpeed_t *> *MotorList, Kinematic_t *kinematic)
+    Controller_t(List_t<IMotorSpeed_t *> *MotorList, Kinematic_t *kinematic)
     {
         this->MotorList = MotorList;
         this->kinematic = kinematic;
@@ -42,7 +42,7 @@ public:
     Kinematic_t *kinematic;
 
 private:
-    List::List_t<Motor::IMotorSpeed_t *> *MotorList;
+    List_t<IMotorSpeed_t *> *MotorList;
 
     float target_speed[4];
     float current_speed[4];

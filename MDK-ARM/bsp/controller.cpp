@@ -11,12 +11,12 @@
 #include "controller.h"
 void Controller_t::setMotorTargetSpeed(float *target_speed)
 {
-    MotorList->Foreach([this, target_speed](Motor::IMotorSpeed_t *motor)
+    MotorList->Foreach([this, target_speed](IMotorSpeed_t *motor)
                        { motor->set_speed_target(target_speed[motor->_id]); });
 }
 void Controller_t::MotorUpdate(uint16_t dt)
 {
-    MotorList->Foreach([this, dt](Motor::IMotorSpeed_t *motor)
+    MotorList->Foreach([this, dt](IMotorSpeed_t *motor)
                        { motor->update((void *)&dt);
 												current_speed[motor->_id] = motor->get_linear_speed(); });
 }

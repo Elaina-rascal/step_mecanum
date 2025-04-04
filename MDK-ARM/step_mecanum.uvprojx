@@ -942,6 +942,11 @@
               <FileType>8</FileType>
               <FilePath>.\bsp\controller.cpp</FilePath>
             </File>
+            <File>
+              <FileName>stepmotorZDT.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\bsp\stepmotorZDT.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -961,6 +966,26 @@
               <FileName>Lib_Common.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\lib\Lib_Common.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Lib_Common.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\lib\Lib_Common.h</FilePath>
+            </File>
+            <File>
+              <FileName>Lib_List.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\lib\Lib_List.h</FilePath>
+            </File>
+            <File>
+              <FileName>Lib_Math.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\lib\Lib_Math.h</FilePath>
+            </File>
+            <File>
+              <FileName>Lib_pormise.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\lib\Lib_pormise.h</FilePath>
             </File>
           </Files>
         </Group>

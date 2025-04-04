@@ -35,6 +35,7 @@
 "step_mecanum\motor.o"
 "step_mecanum\planner.o"
 "step_mecanum\controller.o"
+"step_mecanum\stepmotorzdt.o"
 "step_mecanum\lib_math.o"
 "step_mecanum\lib_promise.o"
 "step_mecanum\lib_common.o"
