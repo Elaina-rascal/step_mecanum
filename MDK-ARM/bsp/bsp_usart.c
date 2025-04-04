@@ -1,6 +1,9 @@
 #include "bsp_usart.h"
 #include "string.h"
-
+/**
+ * @brief 需要配置dma,串口中断
+ *
+ */
 /* usart service instance, modules' info would be recoreded here using USARTRegister() */
 /* usart服务实例,所有注册了usart的模块信息会被保存在这里 */
 static uint8_t idx;

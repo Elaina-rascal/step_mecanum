@@ -7,8 +7,8 @@ extern "C"
 #include <stdint.h>
 #include "main.h"
 
-#define DEVICE_USART_CNT 3     // C板至多分配3个串口
-#define USART_RXBUFF_LIMIT 256 // 如果协议需要更大的buff,请修改这里
+#define DEVICE_USART_CNT 3    // C板至多分配3个串口
+#define USART_RXBUFF_LIMIT 50 // 如果协议需要更大的buff,请修改这里
     // 模块回调函数,用于解析协议
     typedef void (*usart_module_callback)(void *param);
     /* 发送模式枚举 */

@@ -30,7 +30,7 @@ public:
         // USARTServiceInit(_huart);
 
         USART_Init_Config_s init_config;
-        init_config.recv_buff_size = 20;
+        init_config.recv_buff_size = 50;
         init_config.usart_handle = huart;
         init_config.param = this;
         init_config.module_callback = USARTCallback; // 这里传入的是静态函数,需要注意参数类型
