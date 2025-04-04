@@ -18,6 +18,7 @@ __asm(".global __use_no_semihosting");
 #include "Kinematic.h"
 #include "Motor.h"
 #include "planner.h"
+#include "host_control.hpp"
 float DEBUG = 0.0f;
 float DEBUG2 = 0.0f;
 float DEBUG3 = 0.0f;
@@ -25,6 +26,7 @@ float DEBUG3 = 0.0f;
 Controller_t *ChassisControl_ptr;
 Kinematic_t *kinematic_ptr;
 Planner_t *planner_ptr;
+HostControl_t *host_control_ptr;
 StepMotorZDT_t *stepmotor_list_ptr[4];
 TaskHandle_t Chassic_control_handle; // 底盘更新
 TaskHandle_t main_cpp_handle;        // 主函数
@@ -52,6 +54,7 @@ void main_cpp(void)
   kinematic_ptr = new Kinematic_t();
   // 需要用reinterpret_cast转换到父类指针类型
   ChassisControl_ptr = new Controller_t(reinterpret_cast<IMotorSpeed_t **>(stepmotor_list_ptr), kinematic_ptr);
+  host_control_ptr = new HostControl_t(&huart2, ChassisControl_ptr, planner_ptr);
   BaseType_t ok2 = xTaskCreate(OnChassicControl, "Chassic_control", 600, NULL, 3, &Chassic_control_handle);
   BaseType_t ok3 = xTaskCreate(ontest, "main_cpp", 600, NULL, 4, &main_cpp_handle);
   BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);

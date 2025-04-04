@@ -30,7 +30,7 @@ void USARTRegister(USARTInstance *instance, USART_Init_Config_s *init_config)
     instance->usart_handle = init_config->usart_handle;
     instance->recv_buff_size = init_config->recv_buff_size;
     instance->module_callback = init_config->module_callback;
-
+    instance->param = init_config->param;
     usart_instance[idx++] = instance;
     USARTServiceInit(instance);
 }
@@ -84,8 +84,8 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
         { // call the callback function if it is not NULL
             if (usart_instance[i]->module_callback != NULL)
             {
-                usart_instance[i]->module_callback();
-                memset(usart_instance[i]->recv_buff, 0, Size); // 接收结束后清空buffer,对于变长数据是必要的
+                usart_instance[i]->module_callback(usart_instance[i]->param); // 解析数据的回调函数,可以是module的指针或其他数据
+                memset(usart_instance[i]->recv_buff, 0, Size);                // 接收结束后清空buffer,对于变长数据是必要的
             }
             HAL_UARTEx_ReceiveToIdle_DMA(usart_instance[i]->usart_handle, usart_instance[i]->recv_buff, usart_instance[i]->recv_buff_size);
             __HAL_DMA_DISABLE_IT(usart_instance[i]->usart_handle->hdmarx, DMA_IT_HT);
