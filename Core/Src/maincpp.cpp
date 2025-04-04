@@ -12,6 +12,9 @@ __asm(".global __use_no_semihosting");
 #include "maincpp.h"
 #define PI 3.1415926535
 #include "FreeRTOS.h"
+#include "task.h"
+#include "stepmotorZDT.hpp"
+
 // 实例化Map并将初始点设置成startInfo
 // Controller::Controller_t ChassisControl;
 // Kinematic::Kinematic_t kinematic;
@@ -19,9 +22,10 @@ __asm(".global __use_no_semihosting");
 // Planner::Planner_t planner;
 // Grayscale_t Grayscale;
 // IMU::IMU_t imu;
+StepMotorZDT_t *stepmotor_ptr;
 // TaskHandle_t Motor_control_handle;    // 电机转速控制
 // TaskHandle_t Kinematic_update_handle; // 运动学更新
-// TaskHandle_t main_cpp_handle;         // 主函数
+TaskHandle_t main_cpp_handle; // 主函数
 // TaskHandle_t Planner_update_handle;   // 轨迹规划
 
 void OnMotorControl(void *pvParameters);
@@ -37,13 +41,20 @@ void OnPlannerUpdate(void *pvParameters);
 /*二与三需要实时更新*/
 void main_cpp(void)
 {
-
+  stepmotor_ptr = new StepMotorZDT_t(1, &huart1, true, 1);
   //   HAL_UARTEx_ReceiveToIdle_DMA(&huart3, imu.buffer, 100);
   //   BaseType_t ok = xTaskCreate(OnMotorControl, "Motor_control", 600, NULL, 3, &Motor_control_handle);
   //   BaseType_t ok2 = xTaskCreate(OnKinematicUpdate, "Kinematic_update", 600, NULL, 2, &Kinematic_update_handle);
-  //   BaseType_t ok3 = xTaskCreate(Onmaincpp, "main_cpp", 600, NULL, 4, &main_cpp_handle);
+  BaseType_t ok3 = xTaskCreate(Onmaincpp, "main_cpp", 600, NULL, 4, &main_cpp_handle);
   //   BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);
   //   if (ok != pdPASS || ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
+  if (ok3 != pdPASS)
+  {
+    while (1)
+    {
+      // uart_printf("create task failed\n");
+    }
+  }
   //   {
   //     while (1)
   //     {
@@ -56,7 +67,13 @@ void main_cpp(void)
 
 void Onmaincpp(void *pvParameters)
 {
-  
+  while (1)
+  {
+    stepmotor_ptr->set_speed_target(1.5);
+    vTaskDelay(1000);
+    stepmotor_ptr->set_speed_target(0.0);
+    vTaskDelay(1000);
+  }
 }
 
 // void OnMotorControl(void *pvParameters)
