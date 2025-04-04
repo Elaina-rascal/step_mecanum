@@ -26,7 +26,7 @@ class Controller_t
 {
 public:
     Controller_t() = default;
-    Controller_t(LibList_t<IMotorSpeed_t *> *MotorList, Kinematic_t *kinematic)
+    Controller_t(IMotorSpeed_t **MotorList, Kinematic_t *kinematic)
     {
         this->MotorList = MotorList;
         this->kinematic = kinematic;
@@ -42,8 +42,8 @@ public:
     Kinematic_t *kinematic;
 
 private:
-    LibList_t<IMotorSpeed_t *> *MotorList;
-
+    // LibList_t<IMotorSpeed_t *> *MotorList;
+    IMotorSpeed_t **MotorList = {nullptr};
     float target_speed[4];
     float current_speed[4];
     ControlMode_t _ControlMode = ControlMode_t::speed_control_self;

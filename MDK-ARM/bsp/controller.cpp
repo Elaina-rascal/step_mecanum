@@ -11,14 +11,29 @@
 #include "controller.h"
 void Controller_t::setMotorTargetSpeed(float *target_speed)
 {
-    MotorList->Foreach([this, target_speed](IMotorSpeed_t *motor)
-                       { motor->set_speed_target(target_speed[motor->_id]); });
+    // MotorList->Foreach([this, target_speed](IMotorSpeed_t *motor)
+    //                    { motor->set_speed_target(target_speed[motor->_id]); });
+    for (int i = 0; i < 4; i++)
+    {
+        if (MotorList[i] != nullptr)
+        {
+            MotorList[i]->set_speed_target(target_speed[i]);
+        }
+    }
 }
 void Controller_t::MotorUpdate(uint16_t dt)
 {
-    MotorList->Foreach([this, dt](IMotorSpeed_t *motor)
-                       { motor->update((void *)&dt);
-												current_speed[motor->_id] = motor->get_linear_speed(); });
+    // MotorList->Foreach([this, dt](IMotorSpeed_t *motor)
+    //                    { motor->update((void *)&dt);
+    // 											current_speed[motor->_id] = motor->get_linear_speed(); });
+    for (int i = 0; i < 4; i++)
+    {
+        if (MotorList[i] != nullptr)
+        {
+            MotorList[i]->update((void *)&dt);
+            current_speed[i] = MotorList[i]->get_linear_speed();
+        }
+    }
 }
 void Controller_t::StatusUpdate(odom_t &odom_in)
 {
