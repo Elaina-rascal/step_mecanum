@@ -20,8 +20,11 @@
 *.sct
 *.d  
 *.htm
+*.iex
 *.dep
 # Ignore user-specific temporary files
 *.bak
 *.log
 *.tmp
+MDK-ARM/.vscode/c_cpp_properties.json
+MDK-ARM/.vscode/uv4.log.lock

@@ -1,0 +1,29 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "C_Cpp.autoAddFileAssociations": true,
+    "C_Cpp.autocomplete": "default",
+    "files.associations": {
+        "tim.h": "c",
+        "main.h": "c",
+        "stm32h7xx_hal.h": "c",
+        "__verbose_abort": "cpp",
+        "cstddef": "cpp",
+        "cstdint": "cpp",
+        "cstdlib": "cpp",
+        "initializer_list": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "cmsis_os.h": "c",
+        "usart.h": "c",
+        "stdlib.h": "c",
+        "bsp_usart.h": "c",
+        "string.h": "c",
+        "maincpp.h": "c",
+        "memorymap.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled",
+    "C_Cpp.default.compilerPath": "",
+    "C_Cpp.default.includePath": [
+        "D:\\TOOLS\\keil\\ARM\\ARMCLANG\\include\\**",
+    ]
+}
