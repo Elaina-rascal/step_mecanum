@@ -43,12 +43,12 @@ public:
     IMotorSpeed_t(uint8_t id) : _id(id)
     {
     }
-    virtual void set_speed_target(float target) = 0;
+    virtual void set_speed_target(float target) = 0; // 设置目标线速度
     virtual void update(void *param) = 0;
     virtual void set_angle_target(float target)
     {
     }
-    virtual float get_linear_speed() = 0;
+    virtual float get_linear_speed() = 0; // 获取线速度
 
     uint8_t _id;
 };
