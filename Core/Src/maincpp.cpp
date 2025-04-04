@@ -16,18 +16,15 @@ __asm(".global __use_no_semihosting");
 #include "stepmotorZDT.hpp"
 
 // 实例化Map并将初始点设置成startInfo
-// Controller::Controller_t ChassisControl;
-// Kinematic::Kinematic_t kinematic;
-// Connect::Host_t host;
-// Planner::Planner_t planner;
-// Grayscale_t Grayscale;
-// IMU::IMU_t imu;
+// Controller::Controller_t *ChassisControl;
+// Kinematic::Kinematic_t *kinematic;
+Planner::Planner_t *planner;
 StepMotorZDT_t *stepmotor_ptr;
 // TaskHandle_t Motor_control_handle;    // 电机转速控制
 // TaskHandle_t Kinematic_update_handle; // 运动学更新
 TaskHandle_t main_cpp_handle; // 主函数
 // TaskHandle_t Planner_update_handle;   // 轨迹规划
-
+void ontest(void *pvParameters);
 void OnMotorControl(void *pvParameters);
 void OnKinematicUpdate(void *pvParameters);
 void Onmaincpp(void *pvParameters);
@@ -45,7 +42,7 @@ void main_cpp(void)
   //   HAL_UARTEx_ReceiveToIdle_DMA(&huart3, imu.buffer, 100);
   //   BaseType_t ok = xTaskCreate(OnMotorControl, "Motor_control", 600, NULL, 3, &Motor_control_handle);
   //   BaseType_t ok2 = xTaskCreate(OnKinematicUpdate, "Kinematic_update", 600, NULL, 2, &Kinematic_update_handle);
-  BaseType_t ok3 = xTaskCreate(Onmaincpp, "main_cpp", 600, NULL, 4, &main_cpp_handle);
+  BaseType_t ok3 = xTaskCreate(ontest, "main_cpp", 600, NULL, 4, &main_cpp_handle);
   //   BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);
   //   if (ok != pdPASS || ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
   if (ok3 != pdPASS)
@@ -75,7 +72,16 @@ void Onmaincpp(void *pvParameters)
     vTaskDelay(1000);
   }
 }
-
+void ontest(void *pvParameters)
+{
+  while (1)
+  {
+    stepmotor_ptr->set_speed_target(1.5);
+    vTaskDelay(1000);
+    stepmotor_ptr->set_speed_target(0.0);
+    vTaskDelay(1000);
+  }
+}
 // void OnMotorControl(void *pvParameters)
 // {
 //   uint16_t last_tick = 0;

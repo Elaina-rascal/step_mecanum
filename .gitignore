@@ -20,6 +20,7 @@
 *.sct
 *.d  
 *.htm
+*.iex
 *.dep
 # Ignore user-specific temporary files
 *.bak
