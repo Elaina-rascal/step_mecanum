@@ -25,12 +25,10 @@ float DEBUG3 = 0.0f;
 Controller_t *ChassisControl_ptr;
 Kinematic_t *kinematic_ptr;
 Planner_t *planner_ptr;
-// StepMotorZDT_t *stepmotor_ptr;
 StepMotorZDT_t *stepmotor_list_ptr[4];
-// TaskHandle_t Motor_control_handle;    // 电机转速控制
 TaskHandle_t Chassic_control_handle; // 底盘更新
 TaskHandle_t main_cpp_handle;        // 主函数
-// TaskHandle_t Planner_update_handle;   // 轨迹规划
+TaskHandle_t Planner_update_handle;  // 轨迹规划
 void ontest(void *pvParameters);
 void OnChassicControl(void *pvParameters);
 void OnKinematicUpdate(void *pvParameters);
@@ -54,16 +52,13 @@ void main_cpp(void)
   kinematic_ptr = new Kinematic_t();
   // 需要用reinterpret_cast转换到父类指针类型
   ChassisControl_ptr = new Controller_t(reinterpret_cast<IMotorSpeed_t **>(stepmotor_list_ptr), kinematic_ptr);
-  //   HAL_UARTEx_ReceiveToIdle_DMA(&huart3, imu.buffer, 100);
-  //   BaseType_t ok = xTaskCreate(OnMotorControl, "Motor_control", 600, NULL, 3, &Motor_control_handle);
-  //   BaseType_t ok2 = xTaskCreate(OnKinematicUpdate, "Kinematic_update", 600, NULL, 2, &Kinematic_update_handle);
   BaseType_t ok2 = xTaskCreate(OnChassicControl, "Chassic_control", 600, NULL, 3, &Chassic_control_handle);
   BaseType_t ok3 = xTaskCreate(ontest, "main_cpp", 600, NULL, 4, &main_cpp_handle);
-
-  //   BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);
+  BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);
   //   if (ok != pdPASS || ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
-  if (ok2 != pdPASS || ok3 != pdPASS)
+  if (ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
   {
+    // 任务创建失败，进入死循环
     while (1)
     {
       // uart_printf("create task failed\n");
@@ -85,48 +80,23 @@ void ontest(void *pvParameters)
 {
   while (1)
   {
-    // for (int i = 0; i < 4; i++)
-    // {
-    //   stepmotor_list_ptr[i]->set_speed_target(DEBUG);
-    //   vTaskDelay(1000);
-    //   stepmotor_list_ptr[i]->set_speed_target(0.0);
-    //   vTaskDelay(1000);
-    // }
     ChassisControl_ptr->set_vel_target({DEBUG, DEBUG2, DEBUG3}, true);
     vTaskDelay(500);
   }
 }
-// void OnMotorControl(void *pvParameters)
-// {
-//   uint16_t last_tick = 0;
-//   while (1)
-//   {
-//     // 通过任务通知机制获取电机控制速度
-//     uint16_t dt = (uint16_t)((xTaskGetTickCount() - last_tick) % portMAX_DELAY);
-//     last_tick = xTaskGetTickCount();
-//     // 为了防止第一次出错
-//     if (dt == 0)
-//     {
-//       continue;
-//     }
-//     ChassisControl.MotorUpdate(dt);
-//     vTaskDelay(3);
-//   }
-// }
 
-// void OnPlannerUpdate(void *pvParameters)
-// {
-//   uint16_t last_tick = xTaskGetTickCount();
-//   // Kinematic.init(0.6, 2, 0.2); // 初始化运动学模型
-//   while (1)
-//   {
-//     uint16_t dt = (xTaskGetTickCount() - last_tick) % portMAX_DELAY;
-//     last_tick = xTaskGetTickCount();
-//     planner.update(dt);
-//     WS2812_State_Handler();
-//     vTaskDelay(50);
-//   }
-// }
+void OnPlannerUpdate(void *pvParameters)
+{
+  uint16_t last_tick = xTaskGetTickCount();
+  // Kinematic.init(0.6, 2, 0.2); // 初始化运动学模型
+  while (1)
+  {
+    uint16_t dt = (xTaskGetTickCount() - last_tick) % portMAX_DELAY;
+    last_tick = xTaskGetTickCount();
+    planner_ptr->update(dt);
+    vTaskDelay(50);
+  }
+}
 void OnChassicControl(void *pvParameters)
 {
   uint16_t last_tick = xTaskGetTickCount();

@@ -14,7 +14,10 @@
         "limits": "cpp",
         "new": "cpp",
         "cmsis_os.h": "c",
-        "usart.h": "c"
+        "usart.h": "c",
+        "stdlib.h": "c",
+        "bsp_usart.h": "c",
+        "string.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.default.compilerPath": "",

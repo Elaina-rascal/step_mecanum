@@ -918,11 +918,6 @@
           <GroupName>bsp</GroupName>
           <Files>
             <File>
-              <FileName>stepmotor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\bsp\stepmotor.c</FilePath>
-            </File>
-            <File>
               <FileName>Kinematic.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\bsp\Kinematic.cpp</FilePath>
@@ -946,6 +941,11 @@
               <FileName>stepmotorZDT.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\bsp\stepmotorZDT.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp\bsp_usart.c</FilePath>
             </File>
           </Files>
         </Group>

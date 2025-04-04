@@ -45,7 +45,7 @@ private:
     float _target_speed = 0;
     int8_t _dir = 0; // 正转方向
     int16_t _target_rpm = 0;
-    float _wheel_diameter = 0.08;      // 轮子直径
+    float _wheel_diameter = 0.077;     // 轮子直径
     bool _have_pub_permission = false; // 是否有发布权限
     uint8_t _cmd_buffer[20] = {0};     // 命令缓冲区
 };
