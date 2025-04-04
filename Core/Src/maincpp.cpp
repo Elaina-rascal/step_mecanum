@@ -14,19 +14,25 @@ __asm(".global __use_no_semihosting");
 #include "FreeRTOS.h"
 #include "task.h"
 #include "stepmotorZDT.hpp"
+#include "controller.h"
+#include "Kinematic.h"
+#include "Motor.h"
+#include "planner.h"
 float DEBUG = 0.0f;
+float DEBUG2 = 0.0f;
+float DEBUG3 = 0.0f;
 // 实例化Map并将初始点设置成startInfo
-// Controller::Controller_t *ChassisControl;
-// Kinematic::Kinematic_t *kinematic;
-// Planner::Planner_t *planner;
+Controller_t *ChassisControl_ptr;
+Kinematic_t *kinematic_ptr;
+Planner_t *planner_ptr;
 // StepMotorZDT_t *stepmotor_ptr;
 StepMotorZDT_t *stepmotor_list_ptr[4];
 // TaskHandle_t Motor_control_handle;    // 电机转速控制
-// TaskHandle_t Kinematic_update_handle; // 运动学更新
-TaskHandle_t main_cpp_handle; // 主函数
+TaskHandle_t Chassic_control_handle; // 底盘更新
+TaskHandle_t main_cpp_handle;        // 主函数
 // TaskHandle_t Planner_update_handle;   // 轨迹规划
 void ontest(void *pvParameters);
-void OnMotorControl(void *pvParameters);
+void OnChassicControl(void *pvParameters);
 void OnKinematicUpdate(void *pvParameters);
 void Onmaincpp(void *pvParameters);
 void OnPlannerUpdate(void *pvParameters);
@@ -41,31 +47,28 @@ void main_cpp(void)
 {
   // stepmotor_ptr = new StepMotorZDT_t(1, &huart1, true, 1);
   // stepmotor_list_ptr = new LibList_t<StepMotorZDT_t *>();
-  stepmotor_list_ptr[1] = new StepMotorZDT_t(1, &huart1, true, 0);
-  stepmotor_list_ptr[0] = new StepMotorZDT_t(2, &huart1, true, 1);
-  stepmotor_list_ptr[2] = new StepMotorZDT_t(3, &huart1, true, 1);
+  stepmotor_list_ptr[1] = new StepMotorZDT_t(1, &huart1, false, 0);
+  stepmotor_list_ptr[0] = new StepMotorZDT_t(2, &huart1, false, 1);
+  stepmotor_list_ptr[2] = new StepMotorZDT_t(3, &huart1, false, 1);
   stepmotor_list_ptr[3] = new StepMotorZDT_t(4, &huart1, true, 0);
+  kinematic_ptr = new Kinematic_t();
+  // 需要用reinterpret_cast转换到父类指针类型
+  ChassisControl_ptr = new Controller_t(reinterpret_cast<IMotorSpeed_t **>(stepmotor_list_ptr), kinematic_ptr);
   //   HAL_UARTEx_ReceiveToIdle_DMA(&huart3, imu.buffer, 100);
   //   BaseType_t ok = xTaskCreate(OnMotorControl, "Motor_control", 600, NULL, 3, &Motor_control_handle);
   //   BaseType_t ok2 = xTaskCreate(OnKinematicUpdate, "Kinematic_update", 600, NULL, 2, &Kinematic_update_handle);
+  BaseType_t ok2 = xTaskCreate(OnChassicControl, "Chassic_control", 600, NULL, 3, &Chassic_control_handle);
   BaseType_t ok3 = xTaskCreate(ontest, "main_cpp", 600, NULL, 4, &main_cpp_handle);
+
   //   BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);
   //   if (ok != pdPASS || ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
-  if (ok3 != pdPASS)
+  if (ok2 != pdPASS || ok3 != pdPASS)
   {
     while (1)
     {
       // uart_printf("create task failed\n");
     }
   }
-  //   {
-  //     while (1)
-  //     {
-  //       // uart_printf("create task failed\n");
-  //     }
-  //   }
-  // Onmaincpp(); // 直接调用主函数
-  // RTOS不用while1
 }
 
 void Onmaincpp(void *pvParameters)
@@ -82,13 +85,15 @@ void ontest(void *pvParameters)
 {
   while (1)
   {
-    for (int i = 0; i < 4; i++)
-    {
-      stepmotor_list_ptr[i]->set_speed_target(DEBUG);
-      vTaskDelay(1000);
-      stepmotor_list_ptr[i]->set_speed_target(0.0);
-      vTaskDelay(1000);
-    }
+    // for (int i = 0; i < 4; i++)
+    // {
+    //   stepmotor_list_ptr[i]->set_speed_target(DEBUG);
+    //   vTaskDelay(1000);
+    //   stepmotor_list_ptr[i]->set_speed_target(0.0);
+    //   vTaskDelay(1000);
+    // }
+    ChassisControl_ptr->set_vel_target({DEBUG, DEBUG2, DEBUG3}, true);
+    vTaskDelay(500);
   }
 }
 // void OnMotorControl(void *pvParameters)
@@ -122,18 +127,21 @@ void ontest(void *pvParameters)
 //     vTaskDelay(50);
 //   }
 // }
-// void OnKinematicUpdate(void *pvParameters)
-// {
-//   uint16_t last_tick = xTaskGetTickCount();
+void OnChassicControl(void *pvParameters)
+{
+  uint16_t last_tick = xTaskGetTickCount();
 
-//   while (1)
-//   {
-//     uint16_t dt = (xTaskGetTickCount() - last_tick) % portMAX_DELAY;
-//     last_tick = xTaskGetTickCount();
-//     ChassisControl.KinematicAndControlUpdate(dt, imu.getyaw());
-//     vTaskDelay(13);
-//   }
-// }
+  while (1)
+  {
+    uint16_t dt = (xTaskGetTickCount() - last_tick) % portMAX_DELAY;
+    last_tick = xTaskGetTickCount();
+    // ChassisControl_ptr->KinematicAndControlUpdate(dt, imu.getyaw());
+    ChassisControl_ptr->KinematicAndControlUpdate(dt);
+    // 步进不需要速度环，此处仅为了读取电机速度
+    ChassisControl_ptr->MotorUpdate(dt);
+    vTaskDelay(10);
+  }
+}
 
 extern "C"
 {

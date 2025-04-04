@@ -21,6 +21,11 @@ void Controller_t::setMotorTargetSpeed(float *target_speed)
         }
     }
 }
+/**
+ * @brief 获得当前电机的速度
+ *
+ * @param dt
+ */
 void Controller_t::MotorUpdate(uint16_t dt)
 {
     // MotorList->Foreach([this, dt](IMotorSpeed_t *motor)
