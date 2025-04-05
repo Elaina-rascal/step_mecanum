@@ -62,7 +62,7 @@ SimpleStatus_t &Planner_t::LoactaionOpenControl(const odom_t &target_odom, float
         targetyaw = target_odom.yaw;
         _controller->kinematic->ClearOdometry();
     }
-    float target_t = Sqrt(targetx * targetx + targety * targety) / (max_v * 0.5);
+    float target_t = Sqrt(targetx * targetx + targety * targety) / (max_v * 0.5) + fabs(targetyaw) / (max_v * 0.5);
     _spline[0] = CubicSpline({0, 0}, {target_t, targetx}, {0, target_vel.linear_x});
     _spline[1] = CubicSpline({0, 0}, {target_t, targety}, {0, target_vel.linear_y});
     _spline[2] = CubicSpline({0, 0}, {target_t, targetyaw}, {0, target_vel.angular_z});

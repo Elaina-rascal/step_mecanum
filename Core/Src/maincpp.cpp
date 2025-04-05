@@ -51,7 +51,7 @@ void main_cpp(void)
   stepmotor_list_ptr[0] = new StepMotorZDT_t(2, &huart1, false, 1);
   stepmotor_list_ptr[2] = new StepMotorZDT_t(3, &huart1, false, 1);
   stepmotor_list_ptr[3] = new StepMotorZDT_t(4, &huart1, true, 0);
-  kinematic_ptr = new Kinematic_t();
+  kinematic_ptr = new Kinematic_t(0.0535, 0.1);
   // 需要用reinterpret_cast转换到父类指针类型
   ChassisControl_ptr = new Controller_t(reinterpret_cast<IMotorSpeed_t **>(stepmotor_list_ptr), kinematic_ptr);
   planner_ptr = new Planner_t(ChassisControl_ptr);
