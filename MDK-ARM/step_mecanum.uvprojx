@@ -1014,11 +1014,6 @@
               <FilePath>.\lib\Lib_Math.cpp</FilePath>
             </File>
             <File>
-              <FileName>Lib_promise.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\lib\Lib_promise.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Lib_Common.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\lib\Lib_Common.cpp</FilePath>
@@ -1029,19 +1024,9 @@
               <FilePath>.\lib\Lib_Common.h</FilePath>
             </File>
             <File>
-              <FileName>Lib_List.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\lib\Lib_List.h</FilePath>
-            </File>
-            <File>
               <FileName>Lib_Math.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\lib\Lib_Math.h</FilePath>
-            </File>
-            <File>
-              <FileName>Lib_pormise.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\lib\Lib_pormise.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -48,4 +48,94 @@ public:
         vPortFree(p);
     }
 };
+//列表实现
+template <typename T>
+class LibList_t
+{
+public:
+    template <typename Func>
+    void Foreach(Func func)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            func(data[i]); // 调用传入的函数对象
+        }
+    }
+    void Foreach(void (*func)(T &))
+    {
+        for (int i = 0; i < size; i++)
+        {
+            func(data[i]);
+        }
+    }
+    T &Find(bool (*func)(T &))
+    {
+        for (int i = 0; i < size; i++)
+        {
+            if (func(data[i]))
+            {
+                return data[i];
+            }
+        }
+        return nullptr;
+    }
+    void Add(T &&item)
+    {
+        if (size == 0)
+        {
+            data = new T[1];
+            data[0] = item;
+            front_ptr = data;
+            tail_ptr = data + 1;
+            size = 1;
+        }
+        else
+        {
+            T *temp = new T[size + 1];
+            for (int i = 0; i < size; i++)
+            {
+                temp[i] = data[i];
+            }
+            temp[size] = item;
+            delete[] data;
+            data = temp;
+            size++;
+            tail_ptr = data + size;
+        }
+    }
+    T &operator[](int index)
+    {
+        return data[index];
+    }
+    T *data;
+
+private:
+    T *front_ptr;
+    T *tail_ptr;
+    int size;
+};
+class Promise_t
+{
+public:
+};
+/*只有返回的Promise*/
+class SimpleStatus_t
+{
+public:
+    SimpleStatus_t() = default;
+    bool isResolved()
+    {
+        return _isResolved;
+    }
+    void resolve()
+    {
+        _isResolved = true;
+    }
+    void start()
+    {
+        _isResolved = false;
+    }
+private:
+    bool _isResolved = false;
+};
 #endif

@@ -38,7 +38,6 @@
 "step_mecanum\stepmotorzdt.o"
 "step_mecanum\bsp_usart.o"
 "step_mecanum\lib_math.o"
-"step_mecanum\lib_promise.o"
 "step_mecanum\lib_common.o"
 "step_mecanum\croutine.o"
 "step_mecanum\event_groups.o"
