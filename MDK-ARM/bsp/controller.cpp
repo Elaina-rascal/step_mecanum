@@ -55,6 +55,15 @@ void Controller_t::StatusUpdate(odom_t &odom_in)
             }
         }
     }
+    //避免在速度控制时候误触发位置控制的状态机
+    else if (_ControlMode == ControlMode_t::speed_control_self)
+    {
+        _status.resolve();
+    }
+    else if (_ControlMode == ControlMode_t::speed_control_groud)
+    {
+        _status.resolve();
+    }
 }
 /**
  * @brief 设置速度目标(不传入bool默认为自身坐标系)

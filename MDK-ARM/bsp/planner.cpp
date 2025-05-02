@@ -22,12 +22,13 @@ void Planner_t::update(uint16_t dt)
             t > _target_t ? t = _target_t : t = t;
             // 求的是增量要加初始值
             _controller->SetClosePosition({_spline[0](t) + start_odom.x, _spline[1](t) + start_odom.y, _spline[2](t) + start_odom.yaw}, _controller->kinematic->_odom_error, false);
-            odom_t &error = _controller->kinematic->_odom_error;
-            odom_t &current = _controller->kinematic->current_odom;
-            if (abs(_target_odom.x - current.x) < error.x && abs(_target_odom.y - current.y) < error.y && abs(_target_odom.yaw - current.yaw) < error.yaw)
-            {
-                _promise.resolve();
-            }
+            // odom_t &error = _controller->kinematic->_odom_error;
+            // odom_t &current = _controller->kinematic->current_odom;
+            // if (abs(_target_odom.x - current.x) < error.x && abs(_target_odom.y - current.y) < error.y && abs(_target_odom.yaw - current.yaw) < error.yaw)
+            // {
+            //     _promise.resolve();
+            // }
+            _promise=_controller->_status;
             break;
         }
         default:

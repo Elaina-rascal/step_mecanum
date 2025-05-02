@@ -40,6 +40,7 @@ public:
     void control_update(odom_t &odom_in);
     SimpleStatus_t &SetClosePosition(const odom_t &target_odom, const odom_t &target_error = {0.1, 0.1, 0.2}, bool clearodom = false);
     Kinematic_t *kinematic;
+    SimpleStatus_t _status = SimpleStatus_t();
 
 private:
     // LibList_t<IMotorSpeed_t *> *MotorList;
@@ -47,7 +48,7 @@ private:
     float target_speed[4];
     float current_speed[4];
     ControlMode_t _ControlMode = ControlMode_t::speed_control_self;
-    SimpleStatus_t _status = SimpleStatus_t();
+    
     pid_Increment_template_t<float, float> pid_x = pid_Increment_template_t<float, float>({0.3, 1, 0.2, -0.4, 0.4});
     pid_Increment_template_t<float, float> pid_y = pid_Increment_template_t<float, float>({0.3, 1, 0.2, -0.4, 0.4});
     pid_Increment_template_t<float, float> pid_yaw = pid_Increment_template_t<float, float>({0.6, 2, 0.2, -0.6, 0.6});
