@@ -341,7 +341,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;./bsp;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;./lib</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../bsp;../lib</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -974,34 +974,34 @@
           <GroupName>bsp</GroupName>
           <Files>
             <File>
-              <FileName>Kinematic.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\bsp\Kinematic.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Motor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\bsp\Motor.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>planner.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\bsp\planner.cpp</FilePath>
+              <FileName>bsp_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\bsp_usart.c</FilePath>
             </File>
             <File>
               <FileName>controller.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\bsp\controller.cpp</FilePath>
+              <FilePath>..\bsp\controller.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Kinematic.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\bsp\Kinematic.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\bsp\Motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>planner.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\bsp\planner.cpp</FilePath>
             </File>
             <File>
               <FileName>stepmotorZDT.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\bsp\stepmotorZDT.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\bsp\bsp_usart.c</FilePath>
+              <FilePath>..\bsp\stepmotorZDT.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1009,24 +1009,29 @@
           <GroupName>lib</GroupName>
           <Files>
             <File>
-              <FileName>Lib_Math.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\lib\Lib_Math.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Lib_Common.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\lib\Lib_Common.cpp</FilePath>
+              <FilePath>..\lib\Lib_Common.cpp</FilePath>
             </File>
             <File>
               <FileName>Lib_Common.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\lib\Lib_Common.h</FilePath>
+              <FilePath>..\lib\Lib_Common.h</FilePath>
+            </File>
+            <File>
+              <FileName>Lib_Math.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\Lib_Math.cpp</FilePath>
             </File>
             <File>
               <FileName>Lib_Math.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\lib\Lib_Math.h</FilePath>
+              <FilePath>..\lib\Lib_Math.h</FilePath>
+            </File>
+            <File>
+              <FileName>pid_template.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\lib\pid_template.h</FilePath>
             </File>
           </Files>
         </Group>
