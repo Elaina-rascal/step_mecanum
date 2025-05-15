@@ -28,3 +28,4 @@
 *.tmp
 MDK-ARM/.vscode/c_cpp_properties.json
 MDK-ARM/.vscode/uv4.log.lock
+build/

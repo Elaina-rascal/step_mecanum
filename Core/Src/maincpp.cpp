@@ -117,42 +117,7 @@ void OnChassicControl(void *pvParameters)
   }
 }
 
-extern "C"
-{
 
-#ifdef __MICROLIB
-#include <stdio.h>
-
-  int fputc(int ch, FILE *f)
-  {
-    (void)f;
-    (void)ch;
-
-    return ch;
-  }
-#else
-#include <rt_sys.h>
-
-  FILEHANDLE $Sub$$_sys_open(const char *name, int openmode)
-  {
-    (void)name;
-    (void)openmode;
-    return 0;
-  }
-#endif
-
-  void _sys_exit(int ret)
-  {
-    (void)ret;
-    while (1)
-    {
-    }
-  }
-  void _ttywrch(int ch)
-  {
-    (void)ch;
-  }
-}
 // .............................................'RW#####EEEEEEEEEEEEEEEEEEEEEEEEWW%%%%%%N%%%%%%NW"...........
 // ............................................/W%E$$$$EEEE######EEEEEEEEEEEEEEEE%%@NN@@$@@N%%%%N%]~`........
 // ........................................i}}I&XIIYYXF&R#E$$$$$EEE##EEEEEEEEEEEE$N$#$K1:!YW@N%%%%@N$KY]+";..
