@@ -12,14 +12,15 @@ __asm(".global __use_no_semihosting");
 #include "maincpp.h"
 #define PI 3.1415926535
 #include "FreeRTOS.h"
-#include "task.h"
-#include "stepmotorZDT.hpp"
-#include "controller.h"
 #include "Kinematic.h"
 #include "Motor.h"
-#include "planner.h"
+#include "controller.h"
 #include "host_control.hpp"
-float DEBUG = 0.0f;
+#include "planner.h"
+#include "stepmotorZDT.hpp"
+#include "task.h"
+
+float DEBUG1 = 0.0f;
 float DEBUG2 = 0.0f;
 float DEBUG3 = 0.0f;
 // 实例化Map并将初始点设置成startInfo
@@ -43,8 +44,7 @@ void OnPlannerUpdate(void *pvParameters);
 /*三是基于自身坐标系下的位置闭环*/
 /*一只要一开始给一个控制量*/
 /*二与三需要实时更新*/
-void main_cpp(void)
-{
+void main_cpp(void) {
   // stepmotor_ptr = new StepMotorZDT_t(1, &huart1, true, 1);
   // stepmotor_list_ptr = new LibList_t<StepMotorZDT_t *>();
   stepmotor_list_ptr[1] = new StepMotorZDT_t(1, &huart1, false, 0);
@@ -53,60 +53,55 @@ void main_cpp(void)
   stepmotor_list_ptr[3] = new StepMotorZDT_t(4, &huart1, true, 1);
   kinematic_ptr = new Kinematic_t(0.0535, 0.1);
   // 需要用reinterpret_cast转换到父类指针类型
-  ChassisControl_ptr = new Controller_t(reinterpret_cast<IMotorSpeed_t **>(stepmotor_list_ptr), kinematic_ptr);
+  ChassisControl_ptr = new Controller_t(
+      reinterpret_cast<IMotorSpeed_t **>(stepmotor_list_ptr), kinematic_ptr);
   planner_ptr = new Planner_t(ChassisControl_ptr);
-  host_control_ptr = new HostControl_t(&huart8, ChassisControl_ptr, planner_ptr);
-  BaseType_t ok2 = xTaskCreate(OnChassicControl, "Chassic_control", 600, NULL, 3, &Chassic_control_handle);
-  BaseType_t ok3 = xTaskCreate(Onmaincpp, "main_cpp", 600, NULL, 4, &main_cpp_handle);
-  BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4, &Planner_update_handle);
+  host_control_ptr =
+      new HostControl_t(&huart8, ChassisControl_ptr, planner_ptr);
+  BaseType_t ok2 = xTaskCreate(OnChassicControl, "Chassic_control", 600, NULL,
+                               3, &Chassic_control_handle);
+  BaseType_t ok3 =
+      xTaskCreate(Onmaincpp, "main_cpp", 600, NULL, 4, &main_cpp_handle);
+  BaseType_t ok4 = xTaskCreate(OnPlannerUpdate, "Planner_update", 1000, NULL, 4,
+                               &Planner_update_handle);
   //   if (ok != pdPASS || ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
-  if (ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS)
-  {
+  if (ok2 != pdPASS || ok3 != pdPASS || ok4 != pdPASS) {
     // 任务创建失败，进入死循环
-    while (1)
-    {
+    while (1) {
       // uart_printf("create task failed\n");
     }
   }
 }
 
-void Onmaincpp(void *pvParameters)
-{
-  while (1)
-  {
+void Onmaincpp(void *pvParameters) {
+  while (1) {
     // stepmotor_ptr->set_speed_target(1.5);
     // vTaskDelay(1000);
     // stepmotor_ptr->set_speed_target(0.0);
     vTaskDelay(1000);
   }
 }
-void ontest(void *pvParameters)
-{
-  while (1)
-  {
-    ChassisControl_ptr->set_vel_target({DEBUG, DEBUG2, DEBUG3}, true);
+void ontest(void *pvParameters) {
+  while (1) {
+    ChassisControl_ptr->set_vel_target({DEBUG1, DEBUG2, DEBUG3}, true);
     vTaskDelay(500);
   }
 }
 
-void OnPlannerUpdate(void *pvParameters)
-{
+void OnPlannerUpdate(void *pvParameters) {
   uint16_t last_tick = xTaskGetTickCount();
   // Kinematic.init(0.6, 2, 0.2); // 初始化运动学模型
-  while (1)
-  {
+  while (1) {
     uint16_t dt = (xTaskGetTickCount() - last_tick) % portMAX_DELAY;
     last_tick = xTaskGetTickCount();
     planner_ptr->update(dt);
     vTaskDelay(50);
   }
 }
-void OnChassicControl(void *pvParameters)
-{
+void OnChassicControl(void *pvParameters) {
   uint16_t last_tick = xTaskGetTickCount();
 
-  while (1)
-  {
+  while (1) {
     uint16_t dt = (xTaskGetTickCount() - last_tick) % portMAX_DELAY;
     last_tick = xTaskGetTickCount();
     // ChassisControl_ptr->KinematicAndControlUpdate(dt, imu.getyaw());
@@ -116,7 +111,6 @@ void OnChassicControl(void *pvParameters)
     vTaskDelay(10);
   }
 }
-
 
 // .............................................'RW#####EEEEEEEEEEEEEEEEEEEEEEEEWW%%%%%%N%%%%%%NW"...........
 // ............................................/W%E$$$$EEEE######EEEEEEEEEEEEEEEE%%@NN@@$@@N%%%%N%]~`........
