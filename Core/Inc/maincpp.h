@@ -12,14 +12,14 @@
 #ifndef __MAINCPP_H
 #define __MAINCPP_H
 #ifdef __cplusplus
-#include "main.h"
 #include "cmsis_os.h"
-extern "C"
-{
+#include "main.h"
+
+extern "C" {
 #endif
 
-    void main_cpp(void);
-    // void MyHAL_UARTECallback();
+void main_cpp(void);
+// void MyHAL_UARTECallback();
 #ifdef __cplusplus
 }
 #endif

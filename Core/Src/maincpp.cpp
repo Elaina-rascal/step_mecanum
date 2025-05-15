@@ -74,6 +74,7 @@ void main_cpp(void) {
 }
 
 void Onmaincpp(void *pvParameters) {
+  UNUSED(pvParameters);
   while (1) {
     // stepmotor_ptr->set_speed_target(1.5);
     // vTaskDelay(1000);
@@ -82,6 +83,7 @@ void Onmaincpp(void *pvParameters) {
   }
 }
 void ontest(void *pvParameters) {
+  UNUSED(pvParameters);
   while (1) {
     ChassisControl_ptr->set_vel_target({DEBUG1, DEBUG2, DEBUG3}, true);
     vTaskDelay(500);
@@ -89,6 +91,7 @@ void ontest(void *pvParameters) {
 }
 
 void OnPlannerUpdate(void *pvParameters) {
+  UNUSED(pvParameters);
   uint16_t last_tick = xTaskGetTickCount();
   // Kinematic.init(0.6, 2, 0.2); // 初始化运动学模型
   while (1) {
@@ -99,6 +102,7 @@ void OnPlannerUpdate(void *pvParameters) {
   }
 }
 void OnChassicControl(void *pvParameters) {
+  UNUSED(pvParameters);
   uint16_t last_tick = xTaskGetTickCount();
 
   while (1) {
